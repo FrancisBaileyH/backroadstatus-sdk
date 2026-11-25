@@ -3,10 +3,6 @@ import Foundation
 /// Mirrors the server's VehicleCategory enum. Raw values match the Kotlin
 /// enum's case name exactly so `rawValue` is the wire format the API
 /// expects in `VehicleInput.category`.
-///
-/// `ON_FOOT` exists for completeness (bulletins can record non-vehicle
-/// travel) but is hidden from the composer's picker — matches the Kotlin
-/// `selectableForProfile = false` flag.
 public enum VehicleCategory: String, CaseIterable, Identifiable, Hashable, Sendable, Codable {
     case bicycle = "BICYCLE"
     case eBicycle = "E_BICYCLE"
@@ -60,16 +56,6 @@ public enum VehicleCategory: String, CaseIterable, Identifiable, Hashable, Senda
         }
     }
 
-    /// Whether the category should appear in user-facing pickers. Mirrors the
-    /// server's `selectableForProfile` — ON_FOOT is excluded so the composer
-    /// doesn't offer it.
-    public var isUserPickable: Bool {
-        switch self {
-        case .onFoot: return false
-        default: return true
-        }
-    }
-
     /// Categories available in the composer's "Modes of Travel" dropdown.
-    public static let userPickable: [VehicleCategory] = VehicleCategory.allCases.filter(\.isUserPickable)
+    public static let userPickable: [VehicleCategory] = allCases
 }
