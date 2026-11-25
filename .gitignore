@@ -22,3 +22,6 @@ DerivedData/
 
 # CocoaPods (not used, future-proof)
 Pods/
+
+.idea/
+.idea/*
