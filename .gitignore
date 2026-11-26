@@ -25,3 +25,13 @@ Pods/
 
 .idea/
 .idea/*
+
+# Android / Gradle
+.gradle/
+local.properties
+captures/
+.cxx/
+android/*/build/
+android/build/
+android/.kotlin/
+

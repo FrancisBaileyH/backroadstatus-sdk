@@ -233,7 +233,92 @@ try await BackroadStatus.shared.downloadGeometry(bounds: regionBounds) { progres
 `BackroadStatusReportView` automatically consults the offline cache before hitting the network, so the composer works for any road inside a region you've prefetched.
 
 ## Android
-Coming soon!
+
+Jetpack Compose port lives under `android/` and mirrors the iOS layout as a Gradle multi-module project (`core`, `mapkit`, `composer-ui`, `maplibre-ui`, `mapbox-ui`). Namespace is `com.backroadstatus.sdk.*`, `minSdk = 26`, Kotlin 2.1 / AGP 8.7, Compose BOM.
+
+### Install (Gradle)
+
+Include the SDK as an included build or publish the modules to your own Maven repo, then:
+
+```kotlin
+// settings.gradle.kts
+includeBuild("path/to/BackroadStatus-SDK/android")
+
+// app/build.gradle.kts
+dependencies {
+    implementation("com.backroadstatus.sdk:core")
+    implementation("com.backroadstatus.sdk:mapkit")
+    implementation("com.backroadstatus.sdk:composer-ui")
+    implementation("com.backroadstatus.sdk:maplibre-ui") // or :mapbox-ui
+}
+```
+
+The Mapbox module expects `MAPBOX_DOWNLOADS_TOKEN` in `~/.gradle/gradle.properties` for the Mapbox Maven repo (same as the official Android quickstart).
+
+### Configure
+
+```kotlin
+class YourApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        BackroadStatus.configure(
+            context = this,
+            clientId = "<your-client-id>",
+            redirectUri = "com.yourcompany.yourapp://oauth/callback",
+            issuer = "https://backroadstatus.com",
+        )
+    }
+}
+```
+
+Register the redirect scheme as an `AppAuthRedirectActivity` intent-filter in your `AndroidManifest.xml` — same pattern as AppAuth-Android's README.
+
+### Present the composer
+
+```kotlin
+BackroadStatusReportScreen(
+    roadId = tappedRoad.id,
+    mapStyleUrl = yourStyleUrl,
+    roadName = tappedRoad.name,
+    onDismiss = { navController.popBackStack() },
+) { binding ->
+    MapLibreComposerMap(binding = binding)  // or MapboxComposerMap(binding = binding)
+}
+```
+
+Pending submissions:
+
+```kotlin
+BackroadStatusPendingBulletinsScreen(
+    mapStyleUrl = yourStyleUrl,
+    onDismiss = { navController.popBackStack() },
+) { binding -> MapLibreComposerMap(binding = binding) }
+```
+
+### Align your main map's palette with the composer
+
+```kotlin
+// MapLibre
+mapView.getMapAsync { map ->
+    map.setStyle(url) { style ->
+        BackroadStatusMapLayers.applyCanonicalConditionColors(style)
+    }
+}
+
+// Mapbox
+mapView.mapboxMap.loadStyle(url) { style ->
+    BackroadStatusMapLayers.applyCanonicalConditionColors(style)
+}
+```
+
+### Offline Road Data
+
+```kotlin
+BackroadStatus.shared.downloadGeometry(
+    context = this,
+    bounds = regionBounds,
+) { progress -> /* UI updates — fires off the main thread */ }
+```
 
 ## License
 

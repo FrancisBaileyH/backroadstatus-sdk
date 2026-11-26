@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" height="18" width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735.34 265.84">
+    <defs>
+        <style>
+            .cls-1{stroke-linejoin:round;stroke-width:3.11px;}
+            .cls-1,.cls-2{fill:none;stroke:#000;}
+            .cls-3,.cls-4{stroke-width:0px;}
+            .cls-4{fill:#ffc107;}
+            .cls-2{stroke-miterlimit:10;stroke-width:8.23px;}
+        </style>
+    </defs>
+
+    <!-- Original Gate SVG Elements -->
+    <g id="Layer_1-2">
+        <rect class="cls-4" x="1.56" y="1.56" width="672.23" height="332.73" rx="36.53" ry="36.53"/>
+        <rect class="cls-1" x="1.56" y="1.56" width="672.23" height="332.73" rx="36.53" ry="36.53"/>
+        <rect class="cls-4" x="20.85" y="18.97" width="633.65" height="297.9" rx="22.76" ry="22.76"/>
+        <rect class="cls-2" x="20.85" y="18.97" width="633.65" height="297.9" rx="22.76" ry="22.76"/>
+        <path class="cls-3" d="m570.29,62.05v38.44H98.7v-38.44h-39.12v220.87h39.12v-149.94h210.98l260.61,98.26v51.68h39.12V62.05h-39.12Zm0,135.62l-182.64-64.69h182.64v64.69Z"/>
+    </g>
+
+    <!-- Overlay: Clock History Badge in Top Right -->
+    <g transform="translate(500, -90) scale(15)" fill="#000000">
+        <!-- Optional white backing circle for contrast over yellow background -->
+        <circle cx="8" cy="8" r="7.5" fill="#0d6efd" stroke="#ffffff" stroke-width=""/>
+
+        <!-- Clock icon paths -->
+        <!-- Clock icon paths -->
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+        <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" fill="#fff"/>
+    </g>
+</svg>
