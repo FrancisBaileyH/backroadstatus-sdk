@@ -320,7 +320,7 @@ fun BackroadStatusReportScreen(
         description.isNotEmpty() || conditions.isNotEmpty() ||
             createdFeatures.isNotEmpty() || photos.isNotEmpty() ||
             vehicles.isNotEmpty() || verifyMode ||
-            featureStatuses.values.any { it != FeatureStatus.unknown }
+            featureStatuses.values.any { it != FeatureStatus.unverified }
     }
 
     // --- Debounced draft save on any fingerprint-changing input ---
@@ -1199,7 +1199,7 @@ private fun DiscoveredFeatureRow(
     featureRemoved: androidx.compose.runtime.snapshots.SnapshotStateMap<String, Boolean>,
     geometry: RoadGeometry,
 ) {
-    val status = featureStatuses[feature.id] ?: FeatureStatus.unknown
+    val status = featureStatuses[feature.id] ?: FeatureStatus.unverified
     val options = FeatureTransition.options(feature.type)
     val effectiveType = if (status == FeatureStatus.changed)
         featureChangeTypes[feature.id] ?: feature.type else feature.type
@@ -1421,7 +1421,7 @@ private fun Draft.hasMeaningfulContent(): Boolean =
     description.isNotEmpty() || conditions.isNotEmpty() ||
         createdFeatures.isNotEmpty() || photos.isNotEmpty() ||
         vehicles.isNotEmpty() || verifyMode ||
-        featureStatuses.values.any { it != FeatureStatus.unknown }
+        featureStatuses.values.any { it != FeatureStatus.unverified }
 
 private fun draftFingerprint(
     description: String,
@@ -1831,10 +1831,10 @@ private fun buildFeatureUpdates(
 ): List<FeatureUpdateInput> {
     val out = ArrayList<FeatureUpdateInput>()
     for (feature in discoveredFeatures) {
-        val status = featureStatuses[feature.id] ?: FeatureStatus.unknown
+        val status = featureStatuses[feature.id] ?: FeatureStatus.unverified
         when (status) {
-            FeatureStatus.unknown -> {}
-            FeatureStatus.noChange -> out.add(
+            FeatureStatus.unverified -> {}
+            FeatureStatus.verified -> out.add(
                 FeatureUpdateInput(
                     featureId = feature.id,
                     finalType = feature.type,

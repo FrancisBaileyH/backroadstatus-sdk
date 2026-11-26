@@ -719,7 +719,7 @@ struct ReportComposerView<Map: View>: View {
 
     @ViewBuilder
     private func discoveredFeatureRow(feature: RoadFeatureDetail) -> some View {
-        let status = featureStatuses[feature.id] ?? .unknown
+        let status = featureStatuses[feature.id] ?? .unverified
         let options = FeatureTransition.options(for: feature.type)
         // In .changed state the icon tracks the user's current type pick so
         // the row reflects the transition immediately (e.g. open-gate ↔
@@ -742,7 +742,7 @@ struct ReportComposerView<Map: View>: View {
                 .layoutPriority(1)
                 Spacer(minLength: 4)
                 Picker("", selection: Binding(
-                    get: { featureStatuses[feature.id] ?? .unknown },
+                    get: { featureStatuses[feature.id] ?? .unverified },
                     set: { featureStatuses[feature.id] = $0 }
                 )) {
                     ForEach(FeatureStatus.allCases) { s in
@@ -1134,7 +1134,7 @@ struct ReportComposerView<Map: View>: View {
             || !photos.isEmpty
             || !vehicles.isEmpty
             || verifyMode
-            || !featureStatuses.values.allSatisfy({ $0 == .unknown })
+            || !featureStatuses.values.allSatisfy({ $0 == .unverified })
     }
 
     private var offlineBanner: some View {
@@ -1782,15 +1782,15 @@ struct ReportComposerView<Map: View>: View {
 
     /// Emits a FeatureUpdateInput for each feature the user explicitly acted on
     /// (verified or removed) plus every new feature placed via "Add Feature".
-    /// Features left at .unchanged are not touched — the server treats absent
+    /// Features left at .unverified are not touched — the server treats absent
     /// entries as "no comment."
     private func buildFeatureUpdates() -> [FeatureUpdateInput] {
         var updates: [FeatureUpdateInput] = discoveredFeatures.compactMap { feature in
-            let status = featureStatuses[feature.id] ?? .unknown
+            let status = featureStatuses[feature.id] ?? .unverified
             switch status {
-            case .unknown:
+            case .unverified:
                 return nil
-            case .noChange:
+            case .verified:
                 return FeatureUpdateInput(
                     featureId: feature.id,
                     finalType: feature.type,

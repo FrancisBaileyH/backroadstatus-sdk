@@ -10,20 +10,20 @@ import kotlinx.serialization.Serializable
  * option — mirrors the web composer.
  *
  * Submission mapping:
- *   - [unknown]  → no FeatureUpdateInput emitted
- *   - [noChange] → verified; `removed=false`, `finalType == originalType`
- *   - [changed]  → user tweaks + optional removed via companion toggle
+ *   - [unverified] → no FeatureUpdateInput emitted
+ *   - [verified]   → `removed=false`, `finalType == originalType`
+ *   - [changed]    → user tweaks + optional removed via companion toggle
  */
 @Serializable
 enum class FeatureStatus {
-    @SerialName("unknown") unknown,
-    @SerialName("noChange") noChange,
+    @SerialName("unverified") unverified,
+    @SerialName("verified") verified,
     @SerialName("changed") changed;
 
     val displayName: String
         get() = when (this) {
-            unknown -> "Unknown"
-            noChange -> "No Change"
+            unverified -> "Unverified"
+            verified -> "Verified"
             changed -> "Changed"
         }
 }

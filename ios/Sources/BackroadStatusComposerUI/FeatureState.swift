@@ -34,21 +34,21 @@ public enum FeatureIcon {
 /// option — mirrors the web composer.
 ///
 /// Submission mapping:
-///   - `.unknown`   → no FeatureUpdateInput emitted
-///   - `.noChange`  → verified; `removed=false`, `finalType == originalType`
-///   - `.changed`   → user tweaks + optional removed via companion toggle
+///   - `.unverified` → no FeatureUpdateInput emitted
+///   - `.verified`   → `removed=false`, `finalType == originalType`
+///   - `.changed`    → user tweaks + optional removed via companion toggle
 public enum FeatureStatus: String, CaseIterable, Identifiable, Sendable, Codable {
-    case unknown
-    case noChange
+    case unverified
+    case verified
     case changed
 
     public var id: String { rawValue }
 
     public var displayName: String {
         switch self {
-        case .unknown:  return "Unknown"
-        case .noChange: return "No Change"
-        case .changed:  return "Changed"
+        case .unverified: return "Unverified"
+        case .verified:   return "Verified"
+        case .changed:    return "Changed"
         }
     }
 }
